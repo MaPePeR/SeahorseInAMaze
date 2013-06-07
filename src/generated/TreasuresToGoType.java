@@ -14,17 +14,17 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for positionType complex type.
+ * <p>Java class for TreasuresToGoType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="positionType">
+ * &lt;complexType name="TreasuresToGoType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="row" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="col" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="player" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="treasures" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,45 +34,45 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "positionType", propOrder = {
-    "row",
-    "col"
+@XmlType(name = "TreasuresToGoType", propOrder = {
+    "player",
+    "treasures"
 })
-public class PositionType {
+public class TreasuresToGoType {
 
-    protected int row;
-    protected int col;
+    protected int player;
+    protected int treasures;
 
     /**
-     * Gets the value of the row property.
+     * Gets the value of the player property.
      * 
      */
-    public int getRow() {
-        return row;
+    public int getPlayer() {
+        return player;
     }
 
     /**
-     * Sets the value of the row property.
+     * Sets the value of the player property.
      * 
      */
-    public void setRow(int value) {
-        this.row = value;
+    public void setPlayer(int value) {
+        this.player = value;
     }
 
     /**
-     * Gets the value of the col property.
+     * Gets the value of the treasures property.
      * 
      */
-    public int getCol() {
-        return col;
+    public int getTreasures() {
+        return treasures;
     }
 
     /**
-     * Sets the value of the col property.
+     * Sets the value of the treasures property.
      * 
      */
-    public void setCol(int value) {
-        this.col = value;
+    public void setTreasures(int value) {
+        this.treasures = value;
     }
 
 }
