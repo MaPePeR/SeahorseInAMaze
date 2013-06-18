@@ -23,7 +23,7 @@ public class StrategieKI extends Spieler {
 	public MoveMessageType doTurn(Board bt, Map<Integer, Integer> idHasNTreasuresleft) {
 		IStrategie strat;
 		currentMaxHigh = new High(0,0, Integer.MIN_VALUE);
-		if(idHasNTreasuresleft.get(this.id) == 1) {
+		/*if(idHasNTreasuresleft.get(this.id) == 1) {
 			//Das Spiel endet gleich
 			strat = new ICanWinStrategie();
 		} else if(idHasNTreasuresleft.values().contains(1)) {
@@ -31,8 +31,9 @@ public class StrategieKI extends Spieler {
 			strat = new PreventEnemyFromWinningStrategie();
 		} else {
 			strat = new DefaultStrategie();
-		}
+		}*/
 		
+		strat=new DefaultStrategie();
 		Card c = bt.getShiftCard();
 		for(int rotationCount = 0; rotationCount<4; ++rotationCount) {
 			for(int x = 5; x >= 0; x-=2) {

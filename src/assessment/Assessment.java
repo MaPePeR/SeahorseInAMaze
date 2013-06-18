@@ -11,7 +11,7 @@ public class Assessment {
 	
 	
 	
-	Assessment(Board karte) {		
+	public Assessment(Board karte) {		
 		board=karte;	
 	}	
 	

@@ -40,7 +40,14 @@ public class Assessmentfield {
 	
 	
 	public static int[][] add(int a[][],int b[][])
-	{return add(a,b,1);}
+	{		
+		int x;
+		int c[][]=new int[7][7];
+		for(int y=0;y<7;y++)
+			for(x=0;x<7;x++)
+				c[y][x]=b[y][x]+a[y][x];
+		return c;
+	}
 	
 	/**
 	 * returns an array, so that alpha*(a+b)
@@ -111,5 +118,11 @@ public class Assessmentfield {
 		return high;
 	}
 	
+	public static void increase(int[][] m,int i)
+	{
+		for(int j=0;j<7;j++)
+			for(int k=0;k<7;k++)
+				m[j][k]*=i;
+	}
 
 }
