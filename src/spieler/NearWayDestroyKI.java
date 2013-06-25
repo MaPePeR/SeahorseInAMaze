@@ -7,6 +7,7 @@ import java.util.Map;
 import ourGenerated.Board;
 import ourGenerated.Card;
 import ourGenerated.Position;
+import spieler.strategies.NearWayDestroyStrategie;
 import assessment.High;
 import assessment.IStrategie;
 import client.types.IllegalTurnException;
