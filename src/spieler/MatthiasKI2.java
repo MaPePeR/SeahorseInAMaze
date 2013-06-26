@@ -97,12 +97,12 @@ public class MatthiasKI2 extends Spieler {
 		Card c = bt.getShiftCard();
 		for (int rotationCount = 0; rotationCount < 4; ++rotationCount) {
 			for (int x = 5; x >= 0; x -= 2) {
-				this.versuche(bt, x, 0, c, rotationCount);
-				this.versuche(bt, x, 6, c, rotationCount);
+				this.versuche(bt, x, 0, c, rotationCount, idHasNTreasuresleft);
+				this.versuche(bt, x, 6, c, rotationCount, idHasNTreasuresleft);
 			}
 			for (int y = 5; y >= 0; y -= 2) {
-				this.versuche(bt, 0, y, c, rotationCount);
-				this.versuche(bt, 6, y, c, rotationCount);
+				this.versuche(bt, 0, y, c, rotationCount, idHasNTreasuresleft);
+				this.versuche(bt, 6, y, c, rotationCount, idHasNTreasuresleft);
 			}
 			c.turnCounterClockwise(1);
 		}
@@ -127,7 +127,7 @@ public class MatthiasKI2 extends Spieler {
 		return move;
 	}
 
-	private void versuche(Board bt, int x, int y, Card c, int rotationCount) {
+	private void versuche(Board bt, int x, int y, Card c, int rotationCount, Map<Integer, Integer> idHasNTreasuresleft) {
 		Position shiftPosition = new Position(x, y);
 		Board shiftetBoard;
 
@@ -181,8 +181,11 @@ public class MatthiasKI2 extends Spieler {
 		// Zähle, wieviele Spieler in dem gleichen Netzwerk sind, wie ich.
 		int playersInMyNetwork = 0;
 		for (Position p : whereCanIGo) {
-			playersInMyNetwork += shiftetBoard.getCards()[p.y][p.x]
-					.getPlayers().size();
+			for(Integer playerID: shiftetBoard.getCards()[p.y][p.x].getPlayers()) {
+				if(idHasNTreasuresleft.keySet().contains(playerID)) { //Ist ein Aktiver Spieler
+					playersInMyNetwork += 1;
+				}
+			}
 		}
 		int myNetworkSize = whereCanIGo.size() / playersInMyNetwork;
 
@@ -190,6 +193,9 @@ public class MatthiasKI2 extends Spieler {
 		int enemysCanMoveTiles = 0;
 		for (Entry<Integer, Position> entry : shiftetBoard
 				.getSpielerPositions().entrySet()) {
+			if(!idHasNTreasuresleft.keySet().contains(entry.getKey())) { //Ist kein aktiver Spieler
+				continue;
+			}
 			if (entry.getKey() != this.id) {
 				enemysCanMoveTiles += shiftetBoard
 						.getPossiblePositionsFromPosition(entry.getValue())
