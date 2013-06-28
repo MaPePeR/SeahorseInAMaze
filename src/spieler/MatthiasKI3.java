@@ -198,9 +198,9 @@ public class MatthiasKI3 extends Spieler {
 
 		int rekursionsToTreasure = canFindTreasure ? 0 : 4;
 		shiftetBoard.clearForbidden();
+		shiftetBoard.setShiftCard(new BlockedCard());
 		if(!canFindTreasure && this.currentMaxBewertung != null && this.currentMaxBewertung.recursionsToFindTreasure > 0) {
 			//Kann in diesem Zug nicht sofort den Schatz finden und wir haben auch noch keinen anderen zug in dem das geht.
-			rekursionsToTreasure = 0;
 			rekursionPositions = null;
 			//TODO: Rekursion
 			
@@ -212,7 +212,8 @@ public class MatthiasKI3 extends Spieler {
 				this.doRekursion(shiftetBoard, new Position(0, y1), whereCanIGo);
 				this.doRekursion(shiftetBoard, new Position(6, y1), whereCanIGo);
 			}
-			if(rekursionPositions != null) {
+			if (rekursionPositions != null) {
+				rekursionsToTreasure = 1;
 				movePositions = rekursionPositions;
 			}
 		}
@@ -241,7 +242,7 @@ public class MatthiasKI3 extends Spieler {
 	private void doRekursion(Board b, Position shiftPosition, List<Position> whereCanIGo) {
 		List<Position> l = versucheRekursion(b, shiftPosition, whereCanIGo);
 		if(l != null) {
-			if(rekursionPositions == null || rekursionPositions.size() < l.size()) {
+			if(rekursionPositions == null || (l!=null && rekursionPositions.size() < l.size())) {
 					rekursionPositions = l;
 			}
 		}
@@ -249,18 +250,26 @@ public class MatthiasKI3 extends Spieler {
 	
 	private List<Position> versucheRekursion(Board b, Position shiftPosition, List<Position> whereCanIGo) {
 		Board shiftetBoard;
-		List<Position> whereIcouldBeAfterShift = shiftPlayerPositions(shiftPosition, whereCanIGo);
 		try {
 			shiftetBoard = b.shift(shiftPosition, new BlockedCard());
 		} catch (IllegalTurnException e) {
 			//SHould never happen
 			return null;
 		}
+		if(shiftetBoard.getTreasurePosition() == null) {
+			return null;
+		}
 		List<Position> fromWhereToTreasure = shiftetBoard.getPossiblePositionsFromPosition(shiftetBoard.getTreasurePosition());
-		whereIcouldBeAfterShift.retainAll(fromWhereToTreasure);
+		List<Position> whereIShouldGo = new LinkedList<Position>();
 		
-		if(whereIcouldBeAfterShift.size() > 0) {
-			return whereIcouldBeAfterShift;
+		for(Position p: whereCanIGo) {
+			if(fromWhereToTreasure.contains(Board.shiftPlayerPosition(shiftPosition, p))) {
+				whereIShouldGo.add(p);
+			}
+		}
+		
+		if(whereIShouldGo.size() > 0) {
+			return whereIShouldGo;
 		} else {
 			return null;
 		}

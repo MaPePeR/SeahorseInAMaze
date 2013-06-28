@@ -496,6 +496,9 @@ public class Board {
 	public void clearForbidden() {
 		this.forbidden = null;
 	}
+	public void setShiftCard(Card c) {
+		this.shiftCard = c;
+	}
 
 	public static Position shiftCardPosition(Position shiftPosition, Position treasurePosition) {
 		boolean vertikal = false;
