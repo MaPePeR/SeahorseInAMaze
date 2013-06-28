@@ -277,7 +277,7 @@ public class MatthiasKI3 extends Spieler {
 	
 	@Override
 	public String getName() {
-		return "Burning Seahorse";
+		return "Rekursing Seahorse";
 	}
 
 }
