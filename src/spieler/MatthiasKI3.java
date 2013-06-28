@@ -37,23 +37,26 @@ public class MatthiasKI3 extends Spieler {
 			if (o == null) {
 				return 1;
 			}
+			//a.compareTo(b) < 0 <=> a < b => return -1 
+			//a.compareTo(b) > 0 <=> a > b => return 1
+			//1 => I'm better.
 			if (this.recursionsToFindTreasure == o.recursionsToFindTreasure) {
 				if (this.myNetworkSize == o.myNetworkSize) {
 					if (this.howManyWallsBlockMyWayToTreasure == o.howManyWallsBlockMyWayToTreasure) {
 						if (this.averageEnemyMovability == o.averageEnemyMovability) {
 							return 0;
 						} else {
-							return this.averageEnemyMovability > o.averageEnemyMovability ? 1 : -1;
+							return this.averageEnemyMovability < o.averageEnemyMovability ? 1 : -1;
 						}
 					} else {
-						return this.howManyWallsBlockMyWayToTreasure > o.howManyWallsBlockMyWayToTreasure ? 1 : -1;
+						return this.howManyWallsBlockMyWayToTreasure < o.howManyWallsBlockMyWayToTreasure ? 1 : -1;
 					}
 				} else {
 					return this.myNetworkSize > o.myNetworkSize ? 1 : -1;
 
 				}
 			} else {
-				return this.recursionsToFindTreasure > o.recursionsToFindTreasure ? 1 : -1;
+				return this.recursionsToFindTreasure < o.recursionsToFindTreasure ? 1 : -1;
 			}
 		}
 
@@ -210,7 +213,7 @@ public class MatthiasKI3 extends Spieler {
 
 	@Override
 	public String getName() {
-		return "Amazing Seahorse";
+		return "Burning Seahorse";
 	}
 
 }
