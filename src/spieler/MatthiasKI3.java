@@ -2,12 +2,14 @@ package spieler;
 
 import generated.MoveMessageType;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import ourGenerated.BlockedCard;
 import ourGenerated.Board;
 import ourGenerated.Card;
 import ourGenerated.Position;
@@ -194,7 +196,27 @@ public class MatthiasKI3 extends Spieler {
 			}
 		}
 
-		Bewertung b = new Bewertung(canFindTreasure ? 1 : Integer.MAX_VALUE, howManyWallsBlockMyWayToTreasure,
+		int rekursionsToTreasure = canFindTreasure ? 0 : 4;
+		shiftetBoard.clearForbidden();
+		if(!canFindTreasure && this.currentMaxBewertung != null && this.currentMaxBewertung.recursionsToFindTreasure > 0) {
+			//Kann in diesem Zug nicht sofort den Schatz finden und wir haben auch noch keinen anderen zug in dem das geht.
+			rekursionsToTreasure = 0;
+			rekursionPositions = null;
+			//TODO: Rekursion
+			
+			for (int x1 = 5; x1 >= 0; x1 -= 2) {
+				this.doRekursion(shiftetBoard, new Position(x1, 0), whereCanIGo);
+				this.doRekursion(shiftetBoard, new Position(x1, 6), whereCanIGo);			
+			}
+			for (int y1 = 5; y1 >= 0; y1 -= 2) {
+				this.doRekursion(shiftetBoard, new Position(0, y1), whereCanIGo);
+				this.doRekursion(shiftetBoard, new Position(6, y1), whereCanIGo);
+			}
+			if(rekursionPositions != null) {
+				movePositions = rekursionPositions;
+			}
+		}
+		Bewertung b = new Bewertung(rekursionsToTreasure, howManyWallsBlockMyWayToTreasure,
 				enemysCanMoveTiles, myNetworkSize);
 
 		// Aktuelle Bewertung ist besser. => Alte gute zuege verwerfen
@@ -207,6 +229,43 @@ public class MatthiasKI3 extends Spieler {
 		}
 	}
 
+	private List<Position> shiftPlayerPositions(Position shiftPos, List<Position> l) {
+		List<Position> out = new LinkedList<Position>();
+		for(Position p: l) {
+			out.add(Board.shiftPlayerPosition(shiftPos, p));
+		}
+		return out;
+	}
+	
+	private List<Position> rekursionPositions = null;
+	private void doRekursion(Board b, Position shiftPosition, List<Position> whereCanIGo) {
+		List<Position> l = versucheRekursion(b, shiftPosition, whereCanIGo);
+		if(l != null) {
+			if(rekursionPositions == null || rekursionPositions.size() < l.size()) {
+					rekursionPositions = l;
+			}
+		}
+	}
+	
+	private List<Position> versucheRekursion(Board b, Position shiftPosition, List<Position> whereCanIGo) {
+		Board shiftetBoard;
+		List<Position> whereIcouldBeAfterShift = shiftPlayerPositions(shiftPosition, whereCanIGo);
+		try {
+			shiftetBoard = b.shift(shiftPosition, new BlockedCard());
+		} catch (IllegalTurnException e) {
+			//SHould never happen
+			return null;
+		}
+		List<Position> fromWhereToTreasure = shiftetBoard.getPossiblePositionsFromPosition(shiftetBoard.getTreasurePosition());
+		whereIcouldBeAfterShift.retainAll(fromWhereToTreasure);
+		
+		if(whereIcouldBeAfterShift.size() > 0) {
+			return whereIcouldBeAfterShift;
+		} else {
+			return null;
+		}
+	}
+	
 	@Override
 	public String getName() {
 		return "Burning Seahorse";
