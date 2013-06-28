@@ -42,10 +42,10 @@ public class MatthiasKI extends Spieler {
 						if (Math.abs(this.averageEnemyMovability - o.averageEnemyMovability) <= 0.05) {
 							return 0;
 						} else {
-							return this.averageEnemyMovability > o.averageEnemyMovability ? 1 : -1;
+							return this.averageEnemyMovability < o.averageEnemyMovability ? 1 : -1;
 						}
 					} else {
-						return this.howManyWallsBlockMyWayToTreasure > o.howManyWallsBlockMyWayToTreasure ? 1 : -1;
+						return this.howManyWallsBlockMyWayToTreasure < o.howManyWallsBlockMyWayToTreasure ? 1 : -1;
 					}
 				} else {
 					return this.myNetworkSize > o.myNetworkSize ? 1 : -1;
