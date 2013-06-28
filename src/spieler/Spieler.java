@@ -15,6 +15,10 @@ import ourGenerated.Card;
 import ourGenerated.Position;
 
 public abstract class Spieler implements ISpieler {
+	public static final boolean DEBUG_TURN = false;
+	
+	
+	
 	public abstract MoveMessageType doTurn(Board bt, Map<Integer, Integer> idHasNTreasuresleft);
 
 	@Override
@@ -42,8 +46,10 @@ public abstract class Spieler implements ISpieler {
 		board.outputPretty();
 		TreeMap<Integer, Integer> idHasNTreasuresleft = new TreeMap<Integer, Integer>();
 		for (TreasuresToGoType ttgt : awaitMoveMessageType.getTreasuresToGo()) {
-			System.out.print("Spieler " + ttgt.getPlayer() + " braucht noch " + ttgt.getTreasures());
-			System.out.println(ttgt.getPlayer() == this.id ? "<" : "");
+			if(DEBUG_TURN) {
+				System.out.print("Spieler " + ttgt.getPlayer() + " braucht noch " + ttgt.getTreasures());
+				System.out.println(ttgt.getPlayer() == this.id ? "<" : "");
+			}
 			idHasNTreasuresleft.put(ttgt.getPlayer(), ttgt.getTreasures());
 			if (this.lastIdHasNTreasuresleft != null) {
 				if (ttgt.getTreasures() < this.lastIdHasNTreasuresleft.get(ttgt.getPlayer())) {
@@ -69,17 +75,19 @@ public abstract class Spieler implements ISpieler {
 				this.alreadyFoundTreasures.add(board.getTreasure());
 			}
 		}
-		System.out.println("Start Board: ");
-		board.outputPretty();
-		System.out.format("Board after %c has been shiftet: \n", new Card(moveMessage.getShiftCard()).getChar());
-		System.out.println("Moving to " + new Position(moveMessage.getNewPinPos()));
-		try {
-			Board shiftedBoard = board.shift(new Position(moveMessage.getShiftPosition()),
-					new Card(moveMessage.getShiftCard()));
-			board.setMyPosition(new Position(moveMessage.getNewPinPos()));
-			shiftedBoard.outputPretty();
-		} catch (Exception e) {
-			System.out.println("illegal Move!");
+		if (DEBUG_TURN) {
+			System.out.println("Start Board: ");
+			board.outputPretty();
+			System.out.format("Board after %c has been shiftet: \n", new Card(moveMessage.getShiftCard()).getChar());
+			System.out.println("Moving to " + new Position(moveMessage.getNewPinPos()));
+			try {
+				Board shiftedBoard = board.shift(new Position(moveMessage.getShiftPosition()),
+						new Card(moveMessage.getShiftCard()));
+				board.setMyPosition(new Position(moveMessage.getNewPinPos()));
+				shiftedBoard.outputPretty();
+			} catch (Exception e) {
+				System.out.println("illegal Move!");
+			}
 		}
 		return moveMessage;
 	}
