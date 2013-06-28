@@ -45,10 +45,7 @@ public class UTFInputStream {
 		while (readcount < n) {
 			lastreadcount = this.is.read(buf, readcount, n - readcount);
 			if (lastreadcount == -1) {
-				throw new EOFException(
-						String.format(
-								"Could only get %d of %d requested bytes",
-								readcount, n));
+				throw new EOFException(String.format("Could only get %d of %d requested bytes", readcount, n));
 			}
 			readcount += lastreadcount;
 

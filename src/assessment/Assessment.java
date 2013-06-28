@@ -54,8 +54,7 @@ public class Assessment {
 
 	public int[][] comboWeights(Position pos)// 28-100
 	{
-		return Assessmentfield.higherField(this.randWeights(pos),
-				this.weights(pos));
+		return Assessmentfield.higherField(this.randWeights(pos), this.weights(pos));
 	}
 
 	public boolean[][] findTreasures() {
@@ -89,26 +88,22 @@ public class Assessment {
 			y = currentIndex / 7;
 			currentCardOpenings = this.cards[y][x].openings;
 
-			if (y > 0 && !visited[currentIndex - 7] && currentCardOpenings[0]
-					&& this.cards[y - 1][x].openings[2]) { // Oben
+			if (y > 0 && !visited[currentIndex - 7] && currentCardOpenings[0] && this.cards[y - 1][x].openings[2]) { // Oben
 				canVisit[canVisitSize++] = (currentIndex - 7);
 				visited[currentIndex - 7] = true;
 			}
 
-			if (x < 6 && !visited[currentIndex + 1] && currentCardOpenings[1]
-					&& this.cards[y][x + 1].openings[3]) { // Rechts
+			if (x < 6 && !visited[currentIndex + 1] && currentCardOpenings[1] && this.cards[y][x + 1].openings[3]) { // Rechts
 				canVisit[canVisitSize++] = (currentIndex + 1);
 				visited[currentIndex + 1] = true;
 			}
 
-			if (y < 6 && !visited[currentIndex + 7] && currentCardOpenings[2]
-					&& this.cards[y + 1][x].openings[0]) { // Unten
+			if (y < 6 && !visited[currentIndex + 7] && currentCardOpenings[2] && this.cards[y + 1][x].openings[0]) { // Unten
 				canVisit[canVisitSize++] = (currentIndex + 7);
 				visited[currentIndex + 7] = true;
 			}
 
-			if (x > 0 && !visited[currentIndex - 1] && currentCardOpenings[3]
-					&& this.cards[y][x - 1].openings[1]) { // Links
+			if (x > 0 && !visited[currentIndex - 1] && currentCardOpenings[3] && this.cards[y][x - 1].openings[1]) { // Links
 				canVisit[canVisitSize++] = currentIndex - 1;
 				visited[currentIndex - 1] = true;
 			}
@@ -121,8 +116,8 @@ public class Assessment {
 	}
 
 	public boolean[][] whereICanGo() {
-		ArrayList<Position> list = (ArrayList<Position>) this.board
-				.getPossiblePositionsFromPosition(this.board.getMyPosition());
+		ArrayList<Position> list = (ArrayList<Position>) this.board.getPossiblePositionsFromPosition(this.board
+				.getMyPosition());
 		boolean marked[][] = new boolean[7][7];
 		for (Position pos : list) {
 			marked[pos.y][pos.x] = true;
@@ -158,8 +153,7 @@ public class Assessment {
 		for (; stx < endx; stx++) {
 			for (; sty < endy; sty++) {
 				if (marked[stx][sty]) {
-					result = Assessmentfield.higherField(
-							this.weights(new Position(stx, sty)), result);
+					result = Assessmentfield.higherField(this.weights(new Position(stx, sty)), result);
 				}
 			}
 		}

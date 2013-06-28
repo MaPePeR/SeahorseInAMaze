@@ -20,8 +20,7 @@ public class XmlInStream extends UTFInputStream {
 			JAXBContext jc = JAXBContext.newInstance(MazeCom.class);
 			this.unmarshaller = jc.createUnmarshaller();
 		} catch (JAXBException e) {
-			System.err
-					.println("[ERROR]: Fehler beim initialisieren der JAXB-Komponenten");
+			System.err.println("[ERROR]: Fehler beim initialisieren der JAXB-Komponenten");
 		}
 	}
 
@@ -41,14 +40,12 @@ public class XmlInStream extends UTFInputStream {
 			result = (MazeCom) this.unmarshaller.unmarshal(bais);
 		} catch (JAXBException e) {
 			e.printStackTrace();
-			System.err
-					.println("[ERROR]: Fehler beim unmarshallen der Nachricht");
+			System.err.println("[ERROR]: Fehler beim unmarshallen der Nachricht");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			System.err.println("[ERROR]: Fehler beim lesen der Nachricht");
 		} catch (NullPointerException e) {
-			System.err
-					.println("[ERROR]: Nullpointer beim lesen der Nachricht aufgrund weiterer Fehler");
+			System.err.println("[ERROR]: Nullpointer beim lesen der Nachricht aufgrund weiterer Fehler");
 		}
 		return result;
 	}

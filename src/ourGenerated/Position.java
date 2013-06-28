@@ -23,8 +23,7 @@ public class Position {
 
 	public Position(int x, int y) {
 		if (doRangeCheck && !(0 <= x && x <= 6 && 0 <= y && y <= 6)) {
-			throw new RuntimeException(String.format(
-					"Can't create Position with x=%d, y=%d", x, y));
+			throw new RuntimeException(String.format("Can't create Position with x=%d, y=%d", x, y));
 		}
 		this.x = x;
 		this.y = y;

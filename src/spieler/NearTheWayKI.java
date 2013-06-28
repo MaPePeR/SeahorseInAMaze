@@ -15,8 +15,7 @@ import client.types.IllegalTurnException;
 public class NearTheWayKI extends Spieler {
 
 	@Override
-	public MoveMessageType doTurn(Board bt,
-			Map<Integer, Integer> idHasNTreasuresleft) {
+	public MoveMessageType doTurn(Board bt, Map<Integer, Integer> idHasNTreasuresleft) {
 		IStrategie strat;
 		this.currentMaxHigh = new High(0, 0, Integer.MIN_VALUE);
 		/*
@@ -48,16 +47,14 @@ public class NearTheWayKI extends Spieler {
 		MoveMessageType move = new MoveMessageType();
 		move.setNewPinPos(this.currentMaxHigh.pos.getPositionType());
 		move.setShiftCard(c.getCardType());
-		move.setShiftPosition(new Position(this.currentMaxX, this.currentMaxY)
-				.getPositionType());
+		move.setShiftPosition(new Position(this.currentMaxX, this.currentMaxY).getPositionType());
 		return move;
 	}
 
 	High currentMaxHigh = new High(0, 0, Integer.MIN_VALUE);
 	int currentMaxX, currentMaxY, currentMaxRotationCount;
 
-	private void versuche(IStrategie strat, Board bt, int x, int y, Card c,
-			int rotationCount) {
+	private void versuche(IStrategie strat, Board bt, int x, int y, Card c, int rotationCount) {
 		try {
 			High h = strat.bewerte(bt.shift(new Position(x, y), c));
 			System.out.println(h.value);

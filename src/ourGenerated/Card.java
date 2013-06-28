@@ -176,8 +176,7 @@ public class Card {
 
 	@Override
 	public String toString() {
-		return "" + this.getChar() + " " + this.treasure + " "
-				+ this.players.toString();
+		return "" + this.getChar() + " " + this.treasure + " " + this.players.toString();
 	}
 
 	public boolean[] getOpenings() {

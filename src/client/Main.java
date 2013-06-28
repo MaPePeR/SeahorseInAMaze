@@ -10,8 +10,7 @@ public class Main {
 	public static final String defaultHostname = "localhost";
 	public static final int defaultPort = 5123;
 
-	public static void main(String args[]) throws UnknownHostException,
-			IOException {
+	public static void main(String args[]) throws UnknownHostException, IOException {
 		String hostname;
 		int port;
 		ISpieler ki;
@@ -50,8 +49,7 @@ public class Main {
 			try {
 				howOften = Integer.parseInt(args[3]);
 				if (howOften <= 0) {
-					System.out
-							.println("Please use a natural number for the number of games");
+					System.out.println("Please use a natural number for the number of games");
 					showUsage();
 					return;
 				}
@@ -103,9 +101,7 @@ public class Main {
 	}
 
 	public static void showUsage() {
-		System.out.format(
-				"USAGE: KI-Name [HOSTNAME=%s] [PORT=%d] [How often=1]\n",
-				defaultHostname, defaultPort);
+		System.out.format("USAGE: KI-Name [HOSTNAME=%s] [PORT=%d] [How often=1]\n", defaultHostname, defaultPort);
 	}
 
 	public static ISpieler tryToLoadSpieler(String spielername) {
@@ -124,17 +120,14 @@ public class Main {
 					try {
 						return (ISpieler) clazz.newInstance();
 					} catch (InstantiationException e) {
-						System.out.println("Coudn't instantiate spieler."
-								+ spielername);
+						System.out.println("Coudn't instantiate spieler." + spielername);
 						return null;
 					} catch (IllegalAccessException e) {
-						System.out.println("Coudn't access spieler."
-								+ spielername);
+						System.out.println("Coudn't access spieler." + spielername);
 						return null;
 					}
 				} else {
-					System.out.println("KI '" + spielername
-							+ "' does not implement ISpieler");
+					System.out.println("KI '" + spielername + "' does not implement ISpieler");
 					return null;
 				}
 			}

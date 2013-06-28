@@ -15,8 +15,7 @@ import ourGenerated.Card;
 import ourGenerated.Position;
 
 public abstract class Spieler implements ISpieler {
-	public abstract MoveMessageType doTurn(Board bt,
-			Map<Integer, Integer> idHasNTreasuresleft);
+	public abstract MoveMessageType doTurn(Board bt, Map<Integer, Integer> idHasNTreasuresleft);
 
 	@Override
 	public abstract String getName();
@@ -39,26 +38,20 @@ public abstract class Spieler implements ISpieler {
 
 	@Override
 	public MoveMessageType doTurn(AwaitMoveMessageType awaitMoveMessageType) {
-		Board board = new Board(awaitMoveMessageType.getBoard(),
-				awaitMoveMessageType.getTreasure(), this.id);
+		Board board = new Board(awaitMoveMessageType.getBoard(), awaitMoveMessageType.getTreasure(), this.id);
 		board.outputPretty();
 		TreeMap<Integer, Integer> idHasNTreasuresleft = new TreeMap<Integer, Integer>();
 		for (TreasuresToGoType ttgt : awaitMoveMessageType.getTreasuresToGo()) {
-			System.out.print("Spieler " + ttgt.getPlayer() + " braucht noch "
-					+ ttgt.getTreasures());
+			System.out.print("Spieler " + ttgt.getPlayer() + " braucht noch " + ttgt.getTreasures());
 			System.out.println(ttgt.getPlayer() == this.id ? "<" : "");
 			idHasNTreasuresleft.put(ttgt.getPlayer(), ttgt.getTreasures());
 			if (this.lastIdHasNTreasuresleft != null) {
-				if (ttgt.getTreasures() < this.lastIdHasNTreasuresleft.get(ttgt
-						.getPlayer())) {
+				if (ttgt.getTreasures() < this.lastIdHasNTreasuresleft.get(ttgt.getPlayer())) {
 					// Spieler hat einen Schatz gefunden.
-					Position spielerPos = board.getSpielerPositions().get(
-							ttgt.getPlayer());
+					Position spielerPos = board.getSpielerPositions().get(ttgt.getPlayer());
 					// Nur eine Bewegung Pro Runde => Er steht jetzt gerade auf
 					// dem Schatz
-					this.alreadyFoundTreasures
-							.add(board.getCards()[spielerPos.y][spielerPos.x]
-									.getTreasure());
+					this.alreadyFoundTreasures.add(board.getCards()[spielerPos.y][spielerPos.x].getTreasure());
 				}
 			}
 		}
@@ -69,9 +62,7 @@ public abstract class Spieler implements ISpieler {
 			throw new RuntimeException("KI did not set new pin pos!");
 		}
 		if (moveMessage.getNewPinPos().equals(
-				board.shiftCardPosition(
-						new Position(moveMessage.getShiftPosition()),
-						board.getTreasurePosition()))) {
+				board.shiftCardPosition(new Position(moveMessage.getShiftPosition()), board.getTreasurePosition()))) {
 			// Wir stehen (nach dem shiften) auf unserer SchatzKarte => Diese
 			// wird im nächsten Zug weg sein.
 			if (!this.alreadyFoundTreasures.contains(board.getTreasure())) {
@@ -80,14 +71,11 @@ public abstract class Spieler implements ISpieler {
 		}
 		System.out.println("Start Board: ");
 		board.outputPretty();
-		System.out.format("Board after %c has been shiftet: \n", new Card(
-				moveMessage.getShiftCard()).getChar());
-		System.out.println("Moving to "
-				+ new Position(moveMessage.getNewPinPos()));
+		System.out.format("Board after %c has been shiftet: \n", new Card(moveMessage.getShiftCard()).getChar());
+		System.out.println("Moving to " + new Position(moveMessage.getNewPinPos()));
 		try {
-			Board shiftedBoard = board.shift(
-					new Position(moveMessage.getShiftPosition()), new Card(
-							moveMessage.getShiftCard()));
+			Board shiftedBoard = board.shift(new Position(moveMessage.getShiftPosition()),
+					new Card(moveMessage.getShiftCard()));
 			board.setMyPosition(new Position(moveMessage.getNewPinPos()));
 			shiftedBoard.outputPretty();
 		} catch (Exception e) {
@@ -96,8 +84,7 @@ public abstract class Spieler implements ISpieler {
 		return moveMessage;
 	}
 
-	public List<Position> filterPositionsForTreasures(Board b,
-			List<Position> positions) {
+	public List<Position> filterPositionsForTreasures(Board b, List<Position> positions) {
 		List<Position> positionsWithTreasures = new LinkedList<Position>();
 		Card cards[][] = b.getCards();
 		for (Position p : positions) {
@@ -108,14 +95,12 @@ public abstract class Spieler implements ISpieler {
 		return positionsWithTreasures;
 	}
 
-	public List<Position> filterPositionsForNotYetTakenTreasures(Board b,
-			List<Position> positions) {
+	public List<Position> filterPositionsForNotYetTakenTreasures(Board b, List<Position> positions) {
 		List<Position> positionsWithNotYetTakenTreasures = new LinkedList<Position>();
 		Card cards[][] = b.getCards();
 		for (Position p : positions) {
 			if (cards[p.y][p.x].getTreasure() != null
-					&& !this.alreadyFoundTreasures.contains(cards[p.y][p.x]
-							.getTreasure())) {
+					&& !this.alreadyFoundTreasures.contains(cards[p.y][p.x].getTreasure())) {
 				positionsWithNotYetTakenTreasures.add(p);
 			}
 		}

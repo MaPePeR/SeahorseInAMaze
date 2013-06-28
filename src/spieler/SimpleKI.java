@@ -43,8 +43,7 @@ public class SimpleKI extends Spieler {
 	}
 
 	@Override
-	public MoveMessageType doTurn(Board bt,
-			Map<Integer, Integer> idHasNTreasuresleft) {
+	public MoveMessageType doTurn(Board bt, Map<Integer, Integer> idHasNTreasuresleft) {
 		Card shiftCard = bt.getShiftCard();
 		ArrayList<Turn> turns = new ArrayList<Turn>();
 		for (int i = 0; i < bt.getCards().length; i += 6) {

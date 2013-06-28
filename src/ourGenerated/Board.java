@@ -53,8 +53,7 @@ public class Board {
 	}
 
 	public Board(BoardType b, TreasureType t, int id) {
-		this.forbidden = b.getForbidden() != null ? new Position(
-				b.getForbidden()) : null;
+		this.forbidden = b.getForbidden() != null ? new Position(b.getForbidden()) : null;
 		this.cards = new Card[7][7];
 		this.treasure = t;
 		this.id = id;
@@ -89,8 +88,7 @@ public class Board {
 
 		if (!foundMe || !foundTreasure) {
 			System.out.println("Ungueltiges Brett");
-			throw new IllegalArgumentException(
-					"Something is wrong with that board...");
+			throw new IllegalArgumentException("Something is wrong with that board...");
 		}
 
 	}
@@ -145,26 +143,22 @@ public class Board {
 			y = currentIndex / 7;
 			currentCardOpenings = this.cards[y][x].openings;
 
-			if (y > 0 && !visited[currentIndex - 7] && currentCardOpenings[0]
-					&& this.cards[y - 1][x].openings[2]) { // Oben
+			if (y > 0 && !visited[currentIndex - 7] && currentCardOpenings[0] && this.cards[y - 1][x].openings[2]) { // Oben
 				canVisit[canVisitSize++] = (currentIndex - 7);
 				visited[currentIndex - 7] = true;
 			}
 
-			if (x < 6 && !visited[currentIndex + 1] && currentCardOpenings[1]
-					&& this.cards[y][x + 1].openings[3]) { // Rechts
+			if (x < 6 && !visited[currentIndex + 1] && currentCardOpenings[1] && this.cards[y][x + 1].openings[3]) { // Rechts
 				canVisit[canVisitSize++] = (currentIndex + 1);
 				visited[currentIndex + 1] = true;
 			}
 
-			if (y < 6 && !visited[currentIndex + 7] && currentCardOpenings[2]
-					&& this.cards[y + 1][x].openings[0]) { // Unten
+			if (y < 6 && !visited[currentIndex + 7] && currentCardOpenings[2] && this.cards[y + 1][x].openings[0]) { // Unten
 				canVisit[canVisitSize++] = (currentIndex + 7);
 				visited[currentIndex + 7] = true;
 			}
 
-			if (x > 0 && !visited[currentIndex - 1] && currentCardOpenings[3]
-					&& this.cards[y][x - 1].openings[1]) { // Links
+			if (x > 0 && !visited[currentIndex - 1] && currentCardOpenings[3] && this.cards[y][x - 1].openings[1]) { // Links
 				canVisit[canVisitSize++] = currentIndex - 1;
 				visited[currentIndex - 1] = true;
 			}
@@ -200,32 +194,28 @@ public class Board {
 			currentCardOpenings = this.cards[y][x].openings;
 
 			if (y > 0) { // Oben
-				currentWallsAdd = (currentCardOpenings[0] ? 0 : 1)
-						+ (this.cards[y - 1][x].openings[2] ? 0 : 1);
+				currentWallsAdd = (currentCardOpenings[0] ? 0 : 1) + (this.cards[y - 1][x].openings[2] ? 0 : 1);
 				if (walls[y - 1][x] > currentWalls + currentWallsAdd) {
 					walls[y - 1][x] = currentWalls + currentWallsAdd;
 				}
 			}
 
 			if (x < 7 - 1) { // Rechts
-				currentWallsAdd = (currentCardOpenings[1] ? 0 : 1)
-						+ (this.cards[y][x + 1].openings[3] ? 0 : 1);
+				currentWallsAdd = (currentCardOpenings[1] ? 0 : 1) + (this.cards[y][x + 1].openings[3] ? 0 : 1);
 				if (walls[y][x + 1] > currentWalls + currentWallsAdd) {
 					walls[y][x + 1] = currentWalls + currentWallsAdd;
 				}
 			}
 
 			if (y < 7 - 1) { // Unten
-				currentWallsAdd = (currentCardOpenings[2] ? 0 : 1)
-						+ (this.cards[y + 1][x].openings[0] ? 0 : 1);
+				currentWallsAdd = (currentCardOpenings[2] ? 0 : 1) + (this.cards[y + 1][x].openings[0] ? 0 : 1);
 				if (walls[y + 1][x] > currentWalls + currentWallsAdd) {
 					walls[y + 1][x] = currentWalls + currentWallsAdd;
 				}
 			}
 
 			if (x > 0) { // Links
-				currentWallsAdd = (currentCardOpenings[3] ? 0 : 1)
-						+ (this.cards[y][x - 1].openings[1] ? 0 : 1);
+				currentWallsAdd = (currentCardOpenings[3] ? 0 : 1) + (this.cards[y][x - 1].openings[1] ? 0 : 1);
 				if (walls[y][x - 1] > currentWalls + currentWallsAdd) {
 					walls[y][x - 1] = currentWalls + currentWallsAdd;
 				}
@@ -249,8 +239,7 @@ public class Board {
 		return walls;
 	}
 
-	private void howManyWallsStraightLineRekursive(int[][] walls, int x, int y,
-			int dx, int dy) {
+	private void howManyWallsStraightLineRekursive(int[][] walls, int x, int y, int dx, int dy) {
 		int newx = x + dx, newy = y + dy;
 		if (0 > newx || newx > 6 || 0 > newy || newy > 6) {
 			return;
@@ -258,32 +247,21 @@ public class Board {
 		boolean currentCardOpenings[] = this.cards[y][x].openings;
 		if (dx != 0 && dy != 0) {
 			walls[newy][newx] = walls[y][x]
-					+ Math.min(
-							(currentCardOpenings[1 + dy] ? 0 : 1)
-									+ (this.cards[newy][x].openings[1 - dy] ? 0
-											: 1)
-									+ (this.cards[newy][x].openings[2 - dx] ? 0
-											: 1)
-									+ (this.cards[newy][newx].openings[2 + dx] ? 0
-											: 1),
-							(currentCardOpenings[2 - dx] ? 0 : 1)
-									+ (this.cards[y][newx].openings[2 + dx] ? 0
-											: 1)
-									+ (this.cards[y][newx].openings[1 - dy] ? 0
-											: 1)
-									+ (this.cards[newy][newx].openings[1 + dy] ? 0
-											: 1));
+					+ Math.min((currentCardOpenings[1 + dy] ? 0 : 1) + (this.cards[newy][x].openings[1 - dy] ? 0 : 1)
+							+ (this.cards[newy][x].openings[2 - dx] ? 0 : 1)
+							+ (this.cards[newy][newx].openings[2 + dx] ? 0 : 1), (currentCardOpenings[2 - dx] ? 0 : 1)
+							+ (this.cards[y][newx].openings[2 + dx] ? 0 : 1)
+							+ (this.cards[y][newx].openings[1 - dy] ? 0 : 1)
+							+ (this.cards[newy][newx].openings[1 + dy] ? 0 : 1));
 			this.howManyWallsStraightLineRekursive(walls, newx, newy, dx, 0); // Vertikal
 			this.howManyWallsStraightLineRekursive(walls, newx, newy, 0, dy); // Horizontal
 			this.howManyWallsStraightLineRekursive(walls, newx, newy, dx, dy);
 		} else if (dy != 0) { // Vertikal
-			walls[newy][newx] = walls[y][x]
-					+ (currentCardOpenings[1 + dy] ? 0 : 1)
+			walls[newy][newx] = walls[y][x] + (currentCardOpenings[1 + dy] ? 0 : 1)
 					+ (this.cards[newy][x].openings[1 - dy] ? 0 : 1);
 			this.howManyWallsStraightLineRekursive(walls, newx, newy, 0, dy);
 		} else { // dx != 0 //Horizontal
-			walls[newy][newx] = walls[y][x]
-					+ (currentCardOpenings[2 - dx] ? 0 : 1)
+			walls[newy][newx] = walls[y][x] + (currentCardOpenings[2 - dx] ? 0 : 1)
 					+ (this.cards[y][newx].openings[2 + dx] ? 0 : 1);
 			this.howManyWallsStraightLineRekursive(walls, newx, newy, dx, 0);
 		}
@@ -340,8 +318,7 @@ public class Board {
 	 */
 	public Board shift(Position p, Card c) throws IllegalTurnException {
 		if (!this.isValidMove(p, c, true)) {
-			throw new IllegalTurnException(
-					"Es wurde kein gueltiger Zug gefunden");
+			throw new IllegalTurnException("Es wurde kein gueltiger Zug gefunden");
 		}
 		Board newBoard = new Board(this);
 		Card tmp = null;
@@ -369,8 +346,7 @@ public class Board {
 			vertikal = true;
 		}
 
-		for (int i = start; i <= 6 && i >= 0 && i + direction <= 6
-				&& i + direction >= 0; i += direction) {
+		for (int i = start; i <= 6 && i >= 0 && i + direction <= 6 && i + direction >= 0; i += direction) {
 			if (vertikal) {
 				newBoard.cards[i][p.x] = newBoard.cards[i + direction][p.x];
 			} else {
@@ -382,19 +358,15 @@ public class Board {
 
 		// Die Rausgeschobenen kommen wieder aufs board.
 		newBoard.cards[p.y][p.x].getPlayers().clear();
-		newBoard.cards[p.y][p.x].getPlayers().addAll(
-				newBoard.shiftCard.getPlayers());
+		newBoard.cards[p.y][p.x].getPlayers().addAll(newBoard.shiftCard.getPlayers());
 		newBoard.shiftCard.getPlayers().clear();
 
 		for (int spieler : this.spielerPositions.keySet()) {
-			newBoard.spielerPositions.put(spieler, this.shiftPlayerPosition(
-					this.spielerPositions.get(spieler), vertikal ? p.x : p.y,
-					direction, vertikal));
+			newBoard.spielerPositions.put(spieler, this.shiftPlayerPosition(this.spielerPositions.get(spieler),
+					vertikal ? p.x : p.y, direction, vertikal));
 		}
-		newBoard.myPosition = this.shiftPlayerPosition(this.myPosition,
-				vertikal ? p.x : p.y, direction, vertikal);
-		newBoard.treasurePosition = this.shiftCardPosition(
-				this.treasurePosition, vertikal ? p.x : p.y, direction,
+		newBoard.myPosition = this.shiftPlayerPosition(this.myPosition, vertikal ? p.x : p.y, direction, vertikal);
+		newBoard.treasurePosition = this.shiftCardPosition(this.treasurePosition, vertikal ? p.x : p.y, direction,
 				vertikal);
 		// TODO: shift my & treasure position
 		if (vertikal) {
@@ -406,8 +378,7 @@ public class Board {
 		return newBoard;
 	}
 
-	public Position shiftCardPosition(Position p, int pos, int direction,
-			boolean vertikal) {
+	public Position shiftCardPosition(Position p, int pos, int direction, boolean vertikal) {
 		if (p == null) { // Karte ist aktuelle shift-karte => sie wird an der
 			// neuen stelle reingeschoben.
 			if (vertikal) {
@@ -430,8 +401,7 @@ public class Board {
 																					// rausgeschoben
 					return null;
 				} else {
-					return new Position(p.x,
-							p.x == pos ? (7 + p.y - direction) % 7 : p.y);
+					return new Position(p.x, p.x == pos ? (7 + p.y - direction) % 7 : p.y);
 				}
 			} else {
 				if (p.y == pos && (p.x + direction >= 7 || p.x + direction < 0)) { // Karte
@@ -439,8 +409,7 @@ public class Board {
 																					// rausgeschoben
 					return null;
 				} else {
-					return new Position(p.y == pos ? (7 + p.x - direction) % 7
-							: p.x, p.y);
+					return new Position(p.y == pos ? (7 + p.x - direction) % 7 : p.x, p.y);
 				}
 			}
 		}
@@ -467,18 +436,14 @@ public class Board {
 		return ((p.x % 6 == 0 && p.y % 2 == 1) || (p.y % 6 == 0 && p.x % 2 == 1));
 	}
 
-	public Position shiftPlayerPosition(Position p, int pos, int direction,
-			boolean vertical) {
+	public Position shiftPlayerPosition(Position p, int pos, int direction, boolean vertical) {
 		if (p == null) {
-			throw new IllegalArgumentException(
-					"Player position can not be null");
+			throw new IllegalArgumentException("Player position can not be null");
 		} else {
 			if (vertical) {
-				return new Position(p.x, p.x == pos ? (7 + p.y - direction) % 7
-						: p.y);
+				return new Position(p.x, p.x == pos ? (7 + p.y - direction) % 7 : p.y);
 			} else {
-				return new Position(p.y == pos ? (7 + p.x - direction) % 7
-						: p.x, p.y);
+				return new Position(p.y == pos ? (7 + p.x - direction) % 7 : p.x, p.y);
 			}
 		}
 	}
@@ -499,9 +464,8 @@ public class Board {
 
 	public void outputPretty() {
 		if (this.treasurePosition == null) {
-			AnsiConsole.out.println(AnsiRenderer
-					.render("Shiftcard: @|bg_blue,white "
-							+ this.shiftCard.getChar() + "|@"));
+			AnsiConsole.out
+					.println(AnsiRenderer.render("Shiftcard: @|bg_blue,white " + this.shiftCard.getChar() + "|@"));
 		} else {
 			AnsiConsole.out.println("Shiftcard: " + this.shiftCard);
 		}
@@ -516,17 +480,13 @@ public class Board {
 				if (!(y % 2 == 1 || x % 2 == 1)) {
 					style += ",negative_on";
 				}
-				if (this.treasurePosition != null
-						&& x == this.treasurePosition.x
-						&& y == this.treasurePosition.y) {
+				if (this.treasurePosition != null && x == this.treasurePosition.x && y == this.treasurePosition.y) {
 					style += ",blue";
 				}
-				if (this.forbidden != null && x == this.forbidden.x
-						&& y == this.forbidden.y) {
+				if (this.forbidden != null && x == this.forbidden.x && y == this.forbidden.y) {
 					style += ",bg_red";
 				}
-				AnsiConsole.out.print(AnsiRenderer.render(style + " "
-						+ this.cards[y][x].getChar() + "|@"));
+				AnsiConsole.out.print(AnsiRenderer.render(style + " " + this.cards[y][x].getChar() + "|@"));
 
 			}
 			AnsiConsole.out.println();
@@ -537,8 +497,7 @@ public class Board {
 		this.forbidden = null;
 	}
 
-	public Object shiftCardPosition(Position shiftPosition,
-			Position treasurePosition) {
+	public Object shiftCardPosition(Position shiftPosition, Position treasurePosition) {
 		boolean vertikal = false;
 		int direction;
 		if (shiftPosition.x == 0) {// Karte wird links eingefuegt
@@ -556,8 +515,7 @@ public class Board {
 		} else {
 			throw new IllegalArgumentException();
 		}
-		return this.shiftCardPosition(treasurePosition,
-				vertikal ? shiftPosition.x : shiftPosition.y, direction,
+		return this.shiftCardPosition(treasurePosition, vertikal ? shiftPosition.x : shiftPosition.y, direction,
 				vertikal);
 	}
 

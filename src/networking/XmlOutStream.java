@@ -20,13 +20,11 @@ public class XmlOutStream extends UTFOutputStream {
 		try {
 			JAXBContext jc = JAXBContext.newInstance(MazeCom.class);
 			this.marshaller = jc.createMarshaller();
-			this.marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-					Boolean.TRUE);
+			this.marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
 			this.marshaller = jc.createMarshaller();
 		} catch (JAXBException e) {
-			System.err
-					.println("[ERROR]: Fehler beim Initialisieren der JAXB-Komponenten");
+			System.err.println("[ERROR]: Fehler beim Initialisieren der JAXB-Komponenten");
 		}
 	}
 

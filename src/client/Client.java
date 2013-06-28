@@ -17,8 +17,7 @@ public class Client {
 	private ServerContext context;
 	public boolean cont;
 
-	public Client(String hostname, int port) throws UnknownHostException,
-			IOException {
+	public Client(String hostname, int port) throws UnknownHostException, IOException {
 		Socket s = new Socket(hostname, port);
 		this.context = new ServerContext(s);
 	}
@@ -44,15 +43,13 @@ public class Client {
 					this.context.doMyTurn(myturn);
 					zuege++;
 				} catch (IllegalTurnException e) {
-					System.err.println("KI wanted to do a invalid Turn! "
-							+ e.getMessage());
+					System.err.println("KI wanted to do a invalid Turn! " + e.getMessage());
 				}
 			}
 		} catch (GameHasEndedException e) {
 			System.out.format("Spiel dauerte %d Zuege.\n", zuege);
-			System.out.format("The Game has ended Winner: %d %s\n", e
-					.getWinMessage().getWinner().getId(), e.getWinMessage()
-					.getWinner().getValue());
+			System.out.format("The Game has ended Winner: %d %s\n", e.getWinMessage().getWinner().getId(), e
+					.getWinMessage().getWinner().getValue());
 			WinStatistics.addStatistic(e.getWinMessage(), spieler.getId());
 			if (spieler.getId() == e.getWinMessage().getWinner().getId()) {
 				System.out.println("THATS ME!!!");
@@ -65,8 +62,7 @@ public class Client {
 						+ e.getFailPacket().getDisconnectMessage().getName());
 				throw e;
 			} else {
-				System.out.println("Invalid Packet: "
-						+ e.getFailPacket().getMcType());
+				System.out.println("Invalid Packet: " + e.getFailPacket().getMcType());
 				throw e;
 			}
 		}

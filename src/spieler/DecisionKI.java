@@ -21,8 +21,7 @@ public class DecisionKI extends Spieler {
 	ObjectFactory obf = new ObjectFactory();
 
 	@Override
-	public MoveMessageType doTurn(Board bt,
-			Map<Integer, Integer> idHasNTreasuresleft) {
+	public MoveMessageType doTurn(Board bt, Map<Integer, Integer> idHasNTreasuresleft) {
 		MoveMessageType mmt = this.obf.createMoveMessageType();
 		this.currentAverageMin = Double.MAX_VALUE;
 		this.minCanGetTreasure = false;
@@ -45,11 +44,9 @@ public class DecisionKI extends Spieler {
 		return mmt;
 	}
 
-	private void tryShift(Board b, boolean vertikal, int direction,
-			int position, Card c, int rotation) {
+	private void tryShift(Board b, boolean vertikal, int direction, int position, Card c, int rotation) {
 		Board shiftetBoard;
-		Position shiftPosition = this.getShiftPosition(vertikal, direction,
-				position);
+		Position shiftPosition = this.getShiftPosition(vertikal, direction, position);
 		if (b.isValidMove(shiftPosition, c)) {
 			try {
 				shiftetBoard = b.shift(shiftPosition, c);
@@ -65,8 +62,7 @@ public class DecisionKI extends Spieler {
 		double average = this.calcAveragePossibleFields(shiftetBoard);
 		boolean canGetTreasure = false;
 		if (shiftetBoard.getTreasurePosition() != null
-				&& shiftetBoard.getPossiblePositionsFromPosition(
-						shiftetBoard.getMyPosition()).contains(
+				&& shiftetBoard.getPossiblePositionsFromPosition(shiftetBoard.getMyPosition()).contains(
 						shiftetBoard.getTreasurePosition())) {
 			canGetTreasure = true;
 		}
@@ -114,8 +110,7 @@ public class DecisionKI extends Spieler {
 		}
 	}
 
-	private Position getShiftPosition(boolean vertikal, int direction,
-			int position) {
+	private Position getShiftPosition(boolean vertikal, int direction, int position) {
 		if (vertikal) {
 			if (direction > 0) {
 				return new Position(0, position);
@@ -136,8 +131,7 @@ public class DecisionKI extends Spieler {
 		int possibleFieldsCurrent = 0;
 		for (int spieler : spielerPosition.keySet()) {
 			if (spieler != this.id) {
-				possibleFieldsCurrent += bt.getPossiblePositionsFromPosition(
-						spielerPosition.get(spieler)).size();
+				possibleFieldsCurrent += bt.getPossiblePositionsFromPosition(spielerPosition.get(spieler)).size();
 			}
 		}
 		return possibleFieldsCurrent / spielerPosition.keySet().size();

@@ -23,8 +23,8 @@ public class MatthiasKI extends Spieler {
 
 		public final double averageEnemyMovability;
 
-		public Bewertung(boolean canFindTreasure, int howManyWallsBlockMyWay,
-				double averageEnemyMovability, int myNetworkSize) {
+		public Bewertung(boolean canFindTreasure, int howManyWallsBlockMyWay, double averageEnemyMovability,
+				int myNetworkSize) {
 			this.canFindTreasure = canFindTreasure;
 			this.howManyWallsBlockMyWayToTreasure = howManyWallsBlockMyWay;
 			this.averageEnemyMovability = averageEnemyMovability;
@@ -39,16 +39,13 @@ public class MatthiasKI extends Spieler {
 			if (this.canFindTreasure == o.canFindTreasure) {
 				if (this.myNetworkSize == o.myNetworkSize) {
 					if (this.howManyWallsBlockMyWayToTreasure == o.howManyWallsBlockMyWayToTreasure) {
-						if (Math.abs(this.averageEnemyMovability
-								- o.averageEnemyMovability) <= 0.05) {
+						if (Math.abs(this.averageEnemyMovability - o.averageEnemyMovability) <= 0.05) {
 							return 0;
 						} else {
-							return this.averageEnemyMovability > o.averageEnemyMovability ? 1
-									: -1;
+							return this.averageEnemyMovability > o.averageEnemyMovability ? 1 : -1;
 						}
 					} else {
-						return this.howManyWallsBlockMyWayToTreasure > o.howManyWallsBlockMyWayToTreasure ? 1
-								: -1;
+						return this.howManyWallsBlockMyWayToTreasure > o.howManyWallsBlockMyWayToTreasure ? 1 : -1;
 					}
 				} else {
 					return this.myNetworkSize > o.myNetworkSize ? 1 : -1;
@@ -61,11 +58,8 @@ public class MatthiasKI extends Spieler {
 
 		@Override
 		public String toString() {
-			return String
-					.format("Treasure: %d\nNetworkSize: %d\nWalls: %d\nMovability: %f\n",
-							this.canFindTreasure ? 1 : 0, this.myNetworkSize,
-							this.howManyWallsBlockMyWayToTreasure,
-							this.averageEnemyMovability);
+			return String.format("Treasure: %d\nNetworkSize: %d\nWalls: %d\nMovability: %f\n", this.canFindTreasure ? 1
+					: 0, this.myNetworkSize, this.howManyWallsBlockMyWayToTreasure, this.averageEnemyMovability);
 		}
 	}
 
@@ -74,8 +68,7 @@ public class MatthiasKI extends Spieler {
 		public final int cardRotation;
 		public final List<Position> movePositions;
 
-		public Zug(Position shiftPosition, int cardRotation,
-				List<Position> movePositions) {
+		public Zug(Position shiftPosition, int cardRotation, List<Position> movePositions) {
 			this.shitPosition = shiftPosition;
 			this.cardRotation = cardRotation;
 			this.movePositions = movePositions;
@@ -91,8 +84,7 @@ public class MatthiasKI extends Spieler {
 	Random rand = new Random();
 
 	@Override
-	public MoveMessageType doTurn(Board bt,
-			Map<Integer, Integer> idHasNTreasuresleft) {
+	public MoveMessageType doTurn(Board bt, Map<Integer, Integer> idHasNTreasuresleft) {
 		this.currentMaxBewertung = null;
 		Card c = bt.getShiftCard();
 		for (int rotationCount = 0; rotationCount < 4; ++rotationCount) {
@@ -107,22 +99,19 @@ public class MatthiasKI extends Spieler {
 			c.turnCounterClockwise(1);
 		}
 		System.out.println(this.currentMaxBewertung);
-		System.out
-				.format("Selecting Shift Position & Card Rotation from %d possibilities\n",
-						this.currentMaxZuege.size());
-		Zug z = this.currentMaxZuege.get(this.currentMaxZuege.size() == 1 ? 0
-				: this.rand.nextInt(this.currentMaxZuege.size()));
+		System.out.format("Selecting Shift Position & Card Rotation from %d possibilities\n",
+				this.currentMaxZuege.size());
+		Zug z = this.currentMaxZuege.get(this.currentMaxZuege.size() == 1 ? 0 : this.rand.nextInt(this.currentMaxZuege
+				.size()));
 		c.turnCounterClockwise(z.cardRotation);
 		MoveMessageType move = new MoveMessageType();
 
 		move.setShiftPosition(z.shitPosition.getPositionType());
 		move.setShiftCard(c.getCardType());
 
-		System.out.format("Selecting New Pin Pos from %d possibilities\n",
-				z.movePositions.size());
+		System.out.format("Selecting New Pin Pos from %d possibilities\n", z.movePositions.size());
 		move.setNewPinPos(z.movePositions.get(
-				z.movePositions.size() == 1 ? 0 : this.rand
-						.nextInt(z.movePositions.size())).getPositionType());
+				z.movePositions.size() == 1 ? 0 : this.rand.nextInt(z.movePositions.size())).getPositionType());
 		System.out.println(this.currentMaxBewertung);
 		return move;
 	}
@@ -141,12 +130,10 @@ public class MatthiasKI extends Spieler {
 		}
 		Position myPos = shiftetBoard.myPosition();
 		Position treasurePos = shiftetBoard.getTreasurePosition();
-		List<Position> whereCanIGo = shiftetBoard
-				.getPossiblePositionsFromPosition(myPos);
+		List<Position> whereCanIGo = shiftetBoard.getPossiblePositionsFromPosition(myPos);
 		int[][] walls;
 
-		boolean canFindTreasure = treasurePos != null
-				&& whereCanIGo.contains(treasurePos);
+		boolean canFindTreasure = treasurePos != null && whereCanIGo.contains(treasurePos);
 
 		if (!canFindTreasure && treasurePos != null) {
 			walls = shiftetBoard.howManyWallsBlockMyWayTo(treasurePos);
@@ -179,21 +166,17 @@ public class MatthiasKI extends Spieler {
 
 		int playersInMyNetwork = 0;
 		for (Position p : whereCanIGo) {
-			playersInMyNetwork += shiftetBoard.getCards()[p.y][p.x]
-					.getPlayers().size();
+			playersInMyNetwork += shiftetBoard.getCards()[p.y][p.x].getPlayers().size();
 		}
 		int myNetworkSize = whereCanIGo.size() / playersInMyNetwork;
 
 		int enemysCanMoveTiles = 0;
 		for (Position pos : shiftetBoard.getSpielerPositions().values()) {
-			enemysCanMoveTiles += shiftetBoard
-					.getPossiblePositionsFromPosition(pos).size();
+			enemysCanMoveTiles += shiftetBoard.getPossiblePositionsFromPosition(pos).size();
 		}
-		double averageEnemyMovability = ((double) enemysCanMoveTiles)
-				/ shiftetBoard.getSpielerPositions().size();
+		double averageEnemyMovability = ((double) enemysCanMoveTiles) / shiftetBoard.getSpielerPositions().size();
 
-		Bewertung b = new Bewertung(canFindTreasure,
-				howManyWallsBlockMyWayToTreasure, averageEnemyMovability,
+		Bewertung b = new Bewertung(canFindTreasure, howManyWallsBlockMyWayToTreasure, averageEnemyMovability,
 				myNetworkSize);
 		if (b.compareTo(this.currentMaxBewertung) > 0) {
 			// System.out.println(b);
@@ -201,8 +184,7 @@ public class MatthiasKI extends Spieler {
 		}
 		if (b.compareTo(this.currentMaxBewertung) >= 0) {
 			this.currentMaxBewertung = b;
-			this.currentMaxZuege.add(new Zug(shiftPosition, rotationCount,
-					movePositions));
+			this.currentMaxZuege.add(new Zug(shiftPosition, rotationCount, movePositions));
 		}
 	}
 

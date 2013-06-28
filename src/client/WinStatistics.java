@@ -54,23 +54,19 @@ public class WinStatistics {
 	private static final int MAXNAMEWIDTH = 15;
 
 	public static void printStatistic(PrintStream out) {
-		int totalGamesSlotLength = Math
-				.max((int) Math.log10(totalGames) + 1, 4);
+		int totalGamesSlotLength = Math.max((int) Math.log10(totalGames) + 1, 4);
 
 		out.format("%6s | %" + totalGamesSlotLength + "s ", "slot", "wins");
 		for (String s : playerNameHasWon.keySet()) {
 			int l = Math.min(MAXNAMEWIDTH, s.length());
 			int w = Math.max(l, totalGamesSlotLength);
 			boolean itsme = s.equals(ourname);
-			out.format("|%c%" + w + "s%c", itsme ? '>' : ' ',
-					s.substring(0, l), itsme ? '<' : ' ');
+			out.format("|%c%" + w + "s%c", itsme ? '>' : ' ', s.substring(0, l), itsme ? '<' : ' ');
 		}
 		out.println();
 		for (int i : playerNumberhasWon.keySet()) {
-			out.format("%6d | %" + totalGamesSlotLength + "d", i,
-					get(playerNumberhasWon, i));
-			for (Entry<String, HashMap<Integer, Integer>> e : playerNameHasWon
-					.entrySet()) {
+			out.format("%6d | %" + totalGamesSlotLength + "d", i, get(playerNumberhasWon, i));
+			for (Entry<String, HashMap<Integer, Integer>> e : playerNameHasWon.entrySet()) {
 				int l = Math.min(MAXNAMEWIDTH, e.getKey().length());
 				int w = Math.max(l, totalGamesSlotLength);
 				out.format(" | %" + w + "d", get(e.getValue(), i));
@@ -78,8 +74,7 @@ public class WinStatistics {
 			out.println();
 		}
 		out.format("%6s | %" + totalGamesSlotLength + "d", "Total:", totalGames);
-		for (Entry<String, HashMap<Integer, Integer>> e : playerNameHasWon
-				.entrySet()) {
+		for (Entry<String, HashMap<Integer, Integer>> e : playerNameHasWon.entrySet()) {
 			int l = Math.min(MAXNAMEWIDTH, e.getKey().length());
 			int w = Math.max(l, totalGamesSlotLength);
 			int s = 0;

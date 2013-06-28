@@ -33,18 +33,15 @@ public class Strategie implements IStrategie {
 
 		h.value += fields + 10 * schaetze;
 
-		Position gegner = board.getSpielerPositions().values().iterator()
-				.next();
+		Position gegner = board.getSpielerPositions().values().iterator().next();
 
 		boolean[][] gway = as.whereToGo(gegner);
-		int gegnerSchaetze = Assessmentfield
-				.count(Assessmentfield.and(gway, t));
+		int gegnerSchaetze = Assessmentfield.count(Assessmentfield.and(gway, t));
 		h.value = h.value * 10 + (24 - gegnerSchaetze);
 		return h;
 	}
 
-	public static High bewerte(Board board, int nah, int wegnah, int schaetze,
-			int bewegung, int[] gegner) {
+	public static High bewerte(Board board, int nah, int wegnah, int schaetze, int bewegung, int[] gegner) {
 		if (board.getTreasurePosition() == null) {
 			return new High();
 		}
@@ -96,8 +93,7 @@ public class Strategie implements IStrategie {
 		for (Position pGegner : board.getSpielerPositions().values()) {
 			if (!pGegner.equals(board.getMyPosition())) {
 				boolean[][] gway = as.whereToGo(pGegner);
-				int gegnerSchaetze = Assessmentfield.count(Assessmentfield.and(
-						gway, t));
+				int gegnerSchaetze = Assessmentfield.count(Assessmentfield.and(gway, t));
 
 				h.value += gegner[i] * (24 - gegnerSchaetze);
 				++i;

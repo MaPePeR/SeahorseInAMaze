@@ -57,8 +57,7 @@ public class ServerContext {
 			this.id = response.getLoginReplyMessage().getNewID();
 		} else if (response.getMcType().equals(MazeComType.DISCONNECT)) {
 			System.out.println("Server disconnected me:");
-			System.out.println(response.getDisconnectMessage().getErroCode()
-					.name());
+			System.out.println(response.getDisconnectMessage().getErroCode().name());
 		} else if (response.getMcType().equals(MazeComType.ACCEPT)) {
 			if (!request.getAcceptMessage().isAccept()) {
 				// Server does not accept me - try another name...
@@ -81,8 +80,7 @@ public class ServerContext {
 		}
 	}
 
-	public void doMyTurn(MoveMessageType moveMessage)
-			throws IllegalTurnException {
+	public void doMyTurn(MoveMessageType moveMessage) throws IllegalTurnException {
 		MazeCom message = this.obf.createMazeCom();
 		message.setId(this.id);
 		message.setMcType(MazeComType.MOVE);
@@ -95,8 +93,7 @@ public class ServerContext {
 			if (acceptMessage.isAccept()) {
 				return;
 			} else {
-				throw new IllegalTurnException(acceptMessage.getErrorCode()
-						.name());
+				throw new IllegalTurnException(acceptMessage.getErrorCode().name());
 			}
 		} else {
 			throw new RecievedWrongTypeException(response);
