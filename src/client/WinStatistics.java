@@ -51,7 +51,7 @@ public class WinStatistics {
 		printStatistic(System.err);
 	}
 
-	private static final int MAXNAMEWIDTH = 15;
+	private static final int MAXNAMEWIDTH = 10;
 
 	public static void printStatistic(PrintStream out) {
 		int totalGamesSlotLength = Math.max((int) Math.log10(totalGames) + 1, 4);
