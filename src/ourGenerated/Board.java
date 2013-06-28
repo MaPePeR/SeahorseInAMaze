@@ -362,11 +362,11 @@ public class Board {
 		newBoard.shiftCard.getPlayers().clear();
 
 		for (int spieler : this.spielerPositions.keySet()) {
-			newBoard.spielerPositions.put(spieler, this.shiftPlayerPosition(this.spielerPositions.get(spieler),
+			newBoard.spielerPositions.put(spieler, Board.shiftPlayerPosition(this.spielerPositions.get(spieler),
 					vertikal ? p.x : p.y, direction, vertikal));
 		}
-		newBoard.myPosition = this.shiftPlayerPosition(this.myPosition, vertikal ? p.x : p.y, direction, vertikal);
-		newBoard.treasurePosition = this.shiftCardPosition(this.treasurePosition, vertikal ? p.x : p.y, direction,
+		newBoard.myPosition = Board.shiftPlayerPosition(this.myPosition, vertikal ? p.x : p.y, direction, vertikal);
+		newBoard.treasurePosition = Board.shiftCardPosition(this.treasurePosition, vertikal ? p.x : p.y, direction,
 				vertikal);
 		// TODO: shift my & treasure position
 		if (vertikal) {
@@ -378,7 +378,7 @@ public class Board {
 		return newBoard;
 	}
 
-	public Position shiftCardPosition(Position p, int pos, int direction, boolean vertikal) {
+	public static Position shiftCardPosition(Position p, int pos, int direction, boolean vertikal) {
 		if (p == null) { // Karte ist aktuelle shift-karte => sie wird an der
 			// neuen stelle reingeschoben.
 			if (vertikal) {
@@ -436,7 +436,7 @@ public class Board {
 		return ((p.x % 6 == 0 && p.y % 2 == 1) || (p.y % 6 == 0 && p.x % 2 == 1));
 	}
 
-	public Position shiftPlayerPosition(Position p, int pos, int direction, boolean vertical) {
+	public static Position shiftPlayerPosition(Position p, int pos, int direction, boolean vertical) {
 		if (p == null) {
 			throw new IllegalArgumentException("Player position can not be null");
 		} else {
@@ -497,7 +497,7 @@ public class Board {
 		this.forbidden = null;
 	}
 
-	public Object shiftCardPosition(Position shiftPosition, Position treasurePosition) {
+	public static Position shiftCardPosition(Position shiftPosition, Position treasurePosition) {
 		boolean vertikal = false;
 		int direction;
 		if (shiftPosition.x == 0) {// Karte wird links eingefuegt
@@ -515,7 +515,28 @@ public class Board {
 		} else {
 			throw new IllegalArgumentException();
 		}
-		return this.shiftCardPosition(treasurePosition, vertikal ? shiftPosition.x : shiftPosition.y, direction,
+		return Board.shiftCardPosition(treasurePosition, vertikal ? shiftPosition.x : shiftPosition.y, direction,
+				vertikal);
+	}
+	public static Position shiftPlayerPosition(Position shiftPosition, Position playerPosition) {
+		boolean vertikal = false;
+		int direction;
+		if (shiftPosition.x == 0) {// Karte wird links eingefuegt
+			direction = -1;
+			vertikal = false;
+		} else if (shiftPosition.x == 6) {// Karte wird rechts eingefuegt
+			direction = 1;
+			vertikal = false;
+		} else if (shiftPosition.y == 0) {// karte wird oben eingefuegt
+			direction = -1;
+			vertikal = true;
+		} else if (shiftPosition.y == 6) { // karte wird unten eingefuegt
+			direction = 1;
+			vertikal = true;
+		} else {
+			throw new IllegalArgumentException();
+		}
+		return Board.shiftPlayerPosition(playerPosition, vertikal ? shiftPosition.x : shiftPosition.y, direction,
 				vertikal);
 	}
 
