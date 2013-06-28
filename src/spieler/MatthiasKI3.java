@@ -174,10 +174,8 @@ public class MatthiasKI3 extends Spieler {
 		int playersInMyNetwork = 0;
 		for (Position p : whereCanIGo) {
 			for (Integer playerID : shiftetBoard.getCards()[p.y][p.x].getPlayers()) {
-				if (idHasNTreasuresleft.keySet().contains(playerID)) { // Ist
-																		// ein
-																		// Aktiver
-																		// Spieler
+				if (idHasNTreasuresleft.keySet().contains(playerID)) { 
+					// Ist ein Aktiver Spieler
 					playersInMyNetwork += 1;
 				}
 			}
@@ -187,10 +185,8 @@ public class MatthiasKI3 extends Spieler {
 		// Summiere auf, wieviele Felder meine Gegner erreichen können.
 		int enemysCanMoveTiles = 0;
 		for (Entry<Integer, Position> entry : shiftetBoard.getSpielerPositions().entrySet()) {
-			if (!idHasNTreasuresleft.keySet().contains(entry.getKey())) { // Ist
-																			// kein
-																			// aktiver
-																			// Spieler
+			if (!idHasNTreasuresleft.keySet().contains(entry.getKey())) {
+				// Ist KEIN Aktiver Spieler => Skip
 				continue;
 			}
 			if (entry.getKey() != this.id) {
