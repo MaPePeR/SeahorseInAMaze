@@ -56,6 +56,7 @@ public class StrategieKI extends Spieler {
 
 	private void versuche(IStrategie strat, Board bt, int x, int y, Card c, int rotationCount) {
 		try {
+			if(!bt.isValidMove(new Position(x, y), c)) return;
 			High h = strat.bewerte(bt.shift(new Position(x, y), c));
 			System.out.println(h.value);
 			if (h.value > this.currentMaxHigh.value) {
