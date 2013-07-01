@@ -99,8 +99,6 @@ public class Strategie implements IStrategie {
 				++i;
 			}
 		}
-		// System.out.println(h.value);
-		// System.out.println("ende");
 		return h;
 	}
 

@@ -57,7 +57,6 @@ public class NearTheWayKI extends Spieler {
 	private void versuche(IStrategie strat, Board bt, int x, int y, Card c, int rotationCount) {
 		try {
 			High h = strat.bewerte(bt.shift(new Position(x, y), c));
-			System.out.println(h.value);
 			if (h.value > this.currentMaxHigh.value) {
 				this.currentMaxHigh = h;
 				this.currentMaxX = x;
@@ -71,7 +70,7 @@ public class NearTheWayKI extends Spieler {
 
 	@Override
 	public String getName() {
-		return "Strategic Seahorse NW";
+		return "NW";
 	}
 
 }
